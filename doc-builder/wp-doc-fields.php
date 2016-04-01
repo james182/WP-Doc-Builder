@@ -64,7 +64,7 @@ function doc_meta_callback() {
 				
 				<ul id="document_drop_zone" class="document_elements">
 					<?php foreach ( $doc_items as $doc_item ): ?>
-						<li id="<?php echo esc_attr( $doc_item->id ); ?>">
+						<li id="<?php echo esc_attr( $doc_item->element_id ); ?>">
 							<div class="document_element">
 								<span class="element_list_heading"><?php echo $doc_item->title; ?></span>
 								<p><?php echo $doc_item->content; ?></p>
@@ -82,6 +82,7 @@ function doc_meta_callback() {
 			<?php endif; ?>
 
 			<button id="save_document" class="button button-primary button-large"><?php echo __( 'Save Document', 'doc_builder' ); ?></button>
+			<p><strong>note:</strong> this should save the above elements to the wp_doc_builder_items db table.</p>
 		</div>
 
 	</div>
@@ -92,6 +93,43 @@ function doc_meta_callback() {
 }
 
 
+function save_document_elements() {
+
+	if ( ! check_ajax_referer( 'wp-job-order', 'security' ) ) {
+		return wp_send_json_error( 'Invalid Nonce' );
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return wp_send_json_error( 'You are not allow to do this.' );
+	}
+
+	$order = $_POST['order'];
+	$counter = 0;
+	
+	$data = array('post_id' => $doc_stored_meta_id,	'title' => '1',	'content' => ''	);
+	$format = array('%d','%s','%s');
+	$wpdb->replace( $db_table_dbi, $data, $format );
+
+	foreach( $order as $item_id ) {
+
+		$post = array(
+			'ID' => (int)$item_id,
+			'menu_order' => $counter,
+		);
+
+		wp_update_post( $post );
+
+		$counter++;
+	}
+
+	wp_send_json_success( 'Post Saved.' );
+
+}
+add_action( 'wp_ajax_save_document', 'save_document_elements' );
+
+
+
+/*
 function save_sort( $post_id ) {
 	// Checks save status
     $is_autosave = wp_is_post_autosave( $post_id );
@@ -127,63 +165,9 @@ function save_sort( $post_id ) {
 		update_post_meta( $post_id, 'relocation_assistance', sanitize_text_field( $_POST[ 'relocation_assistance' ] ) );
 	}
 }
-add_action( 'save_post', 'doc_meta_save' );
+add_action( 'save_post', 'save_sort' );
 
-
-function doc_save_reorder() {
-
-	if ( ! check_ajax_referer( 'wp-job-order', 'security' ) ) {
-		return wp_send_json_error( 'Invalid Nonce' );
-	}
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return wp_send_json_error( 'You are not allow to do this.' );
-	}
-
-	$order = $_POST['order'];
-	$counter = 0;
-	/*
-		$wpdb->replace( 
-		'table', 
-		array( 
-	        'indexed_id' => 1,
-			'column1' => 'value1', 
-			'column2' => 123 
-		), 
-		array( 
-	        '%d',
-			'%s', 
-			'%d' 
-		) 
-	);
-	*/
-	$data = array(
-			'post_id' => 1,
-			'title' => '1',
-			'content' => 1,
-		);
-	$format = array('%d','%s','%s');
-	$wpdb->replace( $db_table_dbi, $data, $format );
-
-	foreach( $order as $item_id ) {
-
-		$post = array(
-			'ID' => (int)$item_id,
-			'menu_order' => $counter,
-		);
-
-		wp_update_post( $post );
-
-		$counter++;
-	}
-
-	wp_send_json_success( 'Post Saved.' );
-
-}
-add_action( 'wp_ajax_save_document', 'doc_save_reorder' );
-
-
-function doc_save_reorder() {
+function xdoc_save_reorder() {
 
 	if ( ! check_ajax_referer( 'wp-job-order', 'security' ) ) {
 		return wp_send_json_error( 'Invalid Nonce' );
@@ -211,4 +195,7 @@ function doc_save_reorder() {
 	wp_send_json_success( 'Post Saved.' );
 
 }
-add_action( 'wp_ajax_save_sort', 'doc_save_reorder' );
+add_action( 'wp_ajax_save_sort', 'xdoc_save_reorder' );
+*/
+
+
