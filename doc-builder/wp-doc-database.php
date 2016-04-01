@@ -1,3 +1,4 @@
+<?php
 
 /**
 * CREATE DATABASES
@@ -43,3 +44,24 @@ function jal_install() {
 	add_option( 'jal_db_version', $jal_db_version );
 }
 register_activation_hook( __FILE__, 'jal_install' );
+
+/*
+function jal_install_data() {
+	global $wpdb;
+	
+	$welcome_name = 'Mr. WordPress';
+	$welcome_text = 'Congratulations, you just completed the installation!';
+	
+	$table_name = $wpdb->prefix . 'doc_builder_elements';
+	
+	$wpdb->insert( 
+		$table_name, 
+		array( 
+			'time' => current_time( 'mysql' ), 
+			'name' => $welcome_name, 
+			'text' => $welcome_text, 
+		) 
+	);
+}
+register_activation_hook( __FILE__, 'jal_install_data' );
+*/
