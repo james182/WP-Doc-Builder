@@ -1,0 +1,60 @@
+
+/* Interaction State */
+.zone-active {  margin: 0 0 40px 0; background-color: #FFFFB4; }
+.zone-hover { margin: 0 0 20px 0; background-color: #AFBFEC; }
+.zone-highlight { border:1px dashed #1D3F9B; height: 50px; background-color: #FFFFB4; }
+
+
+/* Layout */
+.doc_wrapper {
+	overflow: auto;
+}
+#doc_elements {
+	float: left;
+	width: 320px;
+}
+#doc_sort {
+	border: 1px solid #dedede;
+	margin-left: 350px;
+	padding-bottom: 20px;
+}
+
+/* Available Document Elements List */
+ul#available-elements { list-style: none; margin: 0; padding: 20px; border: 1px solid #000; }
+ul#available-elements li { padding:10px 5px; border-bottom:1px solid #ccc;	cursor: pointer; }
+ul#available-elements li .heading { color: #1D3F9B; border-bottom: 1px dotted #dedede; }
+ul#available-elements li .content {  }
+
+
+/* Document Builder / Drop Zone */
+#document_drop_zone { padding:20px; }
+#document_drop_zone ul { list-style: none; margin: 0; }
+#document_drop_zone li { margin: 0 0 20px; }
+#document_drop_zone li.placeholder { padding:30px; text-align:center; border:2px dashed #666; background-color: #dbf7ff; }
+#document_drop_zone .element_list_heading { display:none; color: #1D3F9B; border-bottom: 1px dotted #dedede; }
+
+#document_drop_zone.document_elements {  }
+#document_drop_zone.document_elements li { border:1px dotted #dedede; }
+#document_drop_zone.document_elements li .document_element { position: relative; }
+
+#document_drop_zone.document_elements li .document_element .edit_options { position: absolute; right: 0px; top:0px; border:1px solid #666; padding:5px; }
+
+
+/* UI Class */
+.ui-draggable { list-style: none; }
+.ui-draggable-dragging { background-color: #999; }
+
+
+/* Other */
+.doc_heading { margin:0 0 20px; }
+
+
+
+
+
+
+
+
+
+
+
