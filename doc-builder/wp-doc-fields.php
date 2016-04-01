@@ -12,10 +12,7 @@ function doc_add_custom_metabox() {
 	);
 
 }
-
 add_action( 'add_meta_boxes', 'doc_add_custom_metabox' );
-
-
 
 
 function doc_meta_callback() {
@@ -29,18 +26,6 @@ function doc_meta_callback() {
 
 	$doc_available_elements = $wpdb->get_results( "SELECT * FROM $db_table_dbe" );
 	$doc_items = $wpdb->get_results( "SELECT * FROM $db_table_dbi WHERE post_id = ' $doc_stored_meta_id '" );
-
-	$args = array(
-		'post_type' 			 => 'doc_builder',
-		'orderby'			   	 => 'menu_order',
-		'order'					 => 'ASC',
-		'post_status'			 => 'publish',
-		'no_found_rows' 		 => true,
-		'update_post_term_cache' => false,
-		'post_per_post' 		 => 50
-	);
-
-	//$doc_elements = new WP_Query( $args );
 	
 	?>
 	
@@ -48,7 +33,6 @@ function doc_meta_callback() {
 
 		<!-- Available Document Elements -->
 		<div id="doc_elements" class="doc_elements">
-			
 						
 			<?php if ( count($doc_available_elements) > 0 ) : ?>
 				
@@ -63,10 +47,8 @@ function doc_meta_callback() {
 					<?php endforeach; ?>
 				</ul>
 			
-			<?php else: ?>
-				
-				<p><?php _e( 'You have no available elements to use.', 'wp-doc-builder' ); ?></p>
-			
+			<?php else: ?>				
+				<p><?php _e( 'You have no available elements to use.', 'wp-doc-builder' ); ?></p>			
 			<?php endif; ?>
 
 		</div>
@@ -109,15 +91,6 @@ function doc_meta_callback() {
 
 }
 
-
-
-function xdoc_meta_callback( $post ) {
-	wp_nonce_field( basename( __FILE__ ), 'doc_builder_nonce' );
-	$doc_stored_meta = get_post_meta( $post->ID ); ?>
-
-
-	<?php
-}
 
 function save_sort( $post_id ) {
 	// Checks save status
@@ -186,7 +159,7 @@ function doc_save_reorder() {
 	*/
 	$data = array(
 			'post_id' => 1,
-			'title' => 1,
+			'title' => '1',
 			'content' => 1,
 		);
 	$format = array('%d','%s','%s');
@@ -239,6 +212,3 @@ function doc_save_reorder() {
 
 }
 add_action( 'wp_ajax_save_sort', 'doc_save_reorder' );
-
-
-
